@@ -1,0 +1,25 @@
+body {
+  background-color: purple; }
+
+img {
+  max-width: 100%; }
+
+/* Slideshow */
+.slideshow__content {
+  display: block;
+  text-align: center; }
+
+.slideshow__buttons {
+  display: block;
+  text-align: center; }
+
+.slideshow__button {
+  display: inline-block;
+  width: 48px;
+  height: 48px; }
+
+.slideshow__item {
+  display: none; }
+
+.slideshow__item--active {
+  display: initial; }
