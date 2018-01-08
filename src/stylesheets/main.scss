@@ -1,0 +1,92 @@
+//This is the scss file
+
+@import 'partials/nav';
+
+//$pri_color: #380A70;
+$pri_color: white;
+$sec_color: #ECE900;
+$hero_image_url: '../images/6cover.png'; 
+
+body {
+  background-color: $pri_color;
+  margin: 0;
+  position: relative;
+}
+
+.body--hidden {
+  overflow: hidden;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+// hero
+.hero {
+  position: relative;
+  //transform: translateY($nav_height);
+}
+
+.hero h1 {
+  position: absolute;
+  top: 0px;
+  margin: 0;
+  font-size: 2rem;
+}
+
+.hero h2 {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+// index
+.index_content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.index_content p {
+  text-align: left;
+}
+
+.index h3 {
+}
+
+// Slideshow
+.slideshow {
+}
+
+.slideshow__content {
+  text-align: center;
+}
+
+.slideshow__item {
+  display: none;
+}
+
+.slideshow__item--active {
+  display: block;
+  height: 300px;
+}
+
+.slideshow__buttons {
+  text-align: center;
+}
+
+.slideshow__button {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin-right: calc((320px - (48px * 5)) / 4);
+}
+
+.slideshow__button:last-child {
+  margin-right: 0px;
+}
+
+.slideshow__button--active {
+  box-shadow: inset 10px 10px 16px 0 rgba(0,0,0,0.2);
+}

@@ -1,17 +1,9 @@
 'use strict';
 
 const gulp = require('gulp');
-const {spawn} = require('child_process');
-const pug = require('gulp-pug');
-const sass = require('gulp-sass');
-// Reloads the browser
-const browserSync = require('browser-sync');
-const { reload } = browserSync;
-const {Server } = require('karma');
-// Restarts the server
-const nodemon = require('gulp-nodemon');
 
 gulp.task('compile_pug', function () {
+  const pug = require('gulp-pug'); 
   return gulp.src('views/*.pug')
     .pipe(pug({
       pretty: true,
@@ -23,11 +15,13 @@ gulp.task('compile_pug', function () {
     .pipe(gulp.dest('spec/compiled_fixtures'));
 });
 
-gulp.task('test_browser', ['compile_pug'], function () {
-  return spawn('karma run', { stdio : 'inherit', shell : true });
+gulp.task('browser_test', ['compile_pug'], function () {
+  const { spawn } = require('child_process');
+  return spawn('karma start', { stdio : 'inherit', shell : true });
 });
 
-gulp.task('test_node', function() {
+gulp.task('node_test', function() {
+  const { spawn } = require('child_process');
   return spawn('jasmine', { stdio: 'inherit', shell : true });
 });
 
@@ -38,7 +32,10 @@ gulp.task('test', ['test_node', 'test_browser'], function() {
 /* Start the server with nodemon so it automatically restarts with changes.
 Wrap the server in browser-sync so changes automatically prompt a browser refresh
 */
-gulp.task('run_server', function () {
+/*gulp.task('run_server', function () {
+  const nodemon = require('gulp-nodemon');
+  const browserSync = require('browser-sync');
+  const { reload } = browserSync;
   let flag = false;
   return nodemon({
     script: 'bin/www',
@@ -51,25 +48,89 @@ gulp.task('run_server', function () {
       setTimeout(function() {
         browserSync.init({
           proxy: 'localhost:3000',
-          notify: true,
+          notify: false,
           injectChanges: false
         });
-      }, 300);
+      }, 1000);
     } else {
       setTimeout(function() {
         reload(); 
-      }, 800);
+      }, 1000);
     }
+  });
+});*/
+
+const browserSync = require('browser-sync');
+
+gulp.task('browser-sync', ['nodemon'], function() {
+  return browserSync.init({
+    proxy: "localhost:3000",  // local node app address
+    port: 5000,  // use *different* port than above
+    notify: true,
+    injectChanges: false
+  });
+});
+
+gulp.task('nodemon', function (cb) {
+  const nodemon = require('gulp-nodemon');
+  const { reload } = browserSync;
+  let called = false;
+  return nodemon({
+    script: 'bin/www',
+    ext: 'js pug css',
+    env: { 'NODE_ENV': 'development' },
+    ignore: [
+      'gulpfile.js',
+      'node_modules/'
+    ]
+  })
+  .on('start', function () {
+    if (!called) {
+      called = true;
+      cb();
+    }
+  })
+  .on('restart', function () {
+    setTimeout(function () {
+      reload({ stream: false });
+    }, 1000);
   });
 });
 
 gulp.task('sass', function() {
-  return gulp.src('sass/main.scss')
+  const sass = require('gulp-sass'); 
+  const sourcemaps = require('gulp-sourcemaps');
+  const postcss = require('gulp-postcss');
+  const autoprefixer = require('autoprefixer');
+  return gulp
+    .src('src/stylesheets/main.scss')
+    .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('public/stylesheets'))
+    .pipe(sourcemaps.write())
+    .pipe(postcss([ autoprefixer() ]))
+    .pipe(gulp.dest('public/stylesheets')); 
 });
 
-gulp.task('default', ['run_server'], function () {
+const expect = require('gulp-expect-file');
+
+gulp.task("babel", function () {
+  const sourcemaps = require("gulp-sourcemaps");
+  const babel = require("gulp-babel");
+  const concat = require("gulp-concat");
+  let files = ['src/javascripts/nav.js', 'src/javascripts/slideshow.js', 'src/javascripts/execute.js'];
+  return gulp
+    .src(files)
+    .pipe(expect(files))
+    .pipe(sourcemaps.init())
+    //.pipe(babel()) //error with root?
+    .pipe(concat("all.js"))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest("public"));
+});
+
+gulp.task('default', ['browser-sync'], function () {
   console.log('Don"t forget to turn on cache killer or use Dev tools to disable caching');
-  return gulp.watch('sass/**/*', ['sass']);
+  gulp.watch('src/**/*.scss', ['sass']);
+  gulp.watch('src/**/*.js', ['babel']);
+  return 
 });
