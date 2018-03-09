@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CitySwing DC</title>
+    <script src="https://use.fontawesome.com/168367c54f.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+  </head>
+  <body>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : 'your-app-id',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v2.11'
+        });
+        FB.api(
+          '/472901119585727/feed',
+          'GET',
+          {"limit":"5"},
+          function(response) {
+            const feed = JSON.parse(response); 
+            console.log(feed.data);
+          }
+        );
+      };
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <nav>
+      <div class="nav__header">
+        <h1>CitySwing DC</h1><i class="fa fa-bars" aria-hidden="true"></i>
+      </div>
+      <div class="nav__menu" data-display="hidden">
+        <ul>
+          <li><a href="#">Schedule</a></li>
+          <li><a href="#">Location</a></li>
+          <li><a href="#">Music &amp; Venue</a></li>
+          <li><a href="#">Staff</a></li>
+          <li><a href="#">Code of Conduct</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="nav_flow_block"></div>
+    <h1>Admission</h1>
+    <ul>
+      <li>$10 per person</li>
+      <li>$5 with valid student ID, teacher ID, or active military ID</li>
+    </ul>
+    <h1>Timeline</h1>
+    <ul>
+      <li>Free beginnner swing lesson 8:30pm-9pm</li>
+      <li>DJ dance 9-11:30pm</li>
+    </ul>
+    <h1>Dates</h1>
+    <ul>
+      <li>See calendar and announcements below for the most up-to-date information</li>
+      <li>Dances are almost always on the 2nd and 4th Friday of each month</li>
+    </ul>
+    <h1>Events</h1>
+    <h1>Announcements</h1>
+    <script src="javascripts/execute_schedule.js"></script>
+    <footer>
+      <address>2201 P St NW, Washington, DC 20037 </address>
+      <p>Contact</p>
+      <div class="flex flex--wide flex--valign_center" id="footer_flex"><i class="fa fa-facebook-official" aria-hidden="true"></i>
+        <p>&copy; Austin Chang 2017</p>
+        <ul>
+          <li>Terms of Use</li>
+          <li>Privacy Policy</li>
+          <li>Sitemap</li>
+        </ul>
+      </div>
+    </footer>
+    <script src="javascripts/all.js"> </script>
+  </body>
+</html>

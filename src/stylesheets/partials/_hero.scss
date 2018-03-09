@@ -1,0 +1,29 @@
+$hero_text_color: black;
+
+.hero {
+  //position: relative;
+  //transform: translateY($nav_height);
+  //background-size: cover;
+  text-align: center;
+
+  h1 {
+    color: $hero_text_color;
+   // display: none;
+   // position: absolute;
+   // top: 60px;
+   // margin: 0;
+   // font-size: 2rem;
+  }
+
+  h2 {
+    color: $hero_text_color;
+    //position: absolute;
+    //bottom: 0;
+    //margin: 0;
+    font-size: 1.5rem;
+  }
+
+  img {
+    height: 75vh;  
+  }
+}

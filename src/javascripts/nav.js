@@ -1,25 +1,26 @@
-'use strict';
+(factory => {
+  window.Nav_controller = factory();
+})(() => {
+  'use strict';
 
-function Nav_menu_controller() {
-  let menu = document.getElementsByClassName('nav__menu')[0];
-  let body = document.body;
-
-  this.toggle_menu_display = function() {
-    /*if (menu.style.display === 'none') {
-      menu.style.display = 'block';
-      body.style.overflow = 'hidden'; 
-    } else {
-      menu.style.display = 'none';
-      body.style.overflow = 'visible';
-    }*/
-    if (menu.className === 'nav__menu nav__menu--hidden') {
-      menu.className = 'nav__menu nav__menu--visible'; 
-      body.className = 'body--hidden';
-    } else {
-      menu.className = 'nav__menu nav__menu--hidden';
-      body.className = '';
+  function Nav_controller() {
+    const nav_context = this;
+    this.menu = document.getElementsByClassName('nav__menu')[0];
+    this.body = document.body;
+    this.toggle_menu_visibility = function() {
+      if (this.menu.dataset.display === 'hidden') {
+        this.menu.dataset.display = ''; 
+        this.body.dataset.display = 'hidden';
+      } else {
+        this.menu.dataset.display = 'hidden';
+        this.body.dataset.display = '';
+      }
     }
-  };
-
-  document.getElementsByClassName('fa-bars')[0].addEventListener('click', this.toggle_menu_display);
-}
+    document.getElementsByClassName('fa-bars')[0].addEventListener(
+      'click',
+      nav_context.toggle_menu_visibility.bind(nav_context)
+    );
+  }
+  
+  return Nav_controller;
+});

@@ -4,7 +4,7 @@ const gulp = require('gulp');
 
 gulp.task('compile_pug', function () {
   const pug = require('gulp-pug'); 
-  return gulp.src('views/*.pug')
+  return gulp.src('views/**/*.pug')
     .pipe(pug({
       pretty: true,
       locals: {
@@ -15,19 +15,29 @@ gulp.task('compile_pug', function () {
     .pipe(gulp.dest('spec/compiled_fixtures'));
 });
 
-gulp.task('browser_test', ['compile_pug'], function () {
+gulp.task('generate_tests', function() {
   const { spawn } = require('child_process');
-  return spawn('karma start', { stdio : 'inherit', shell : true });
+  return spawn('node karma_test_generator.js', { stdio : 'inherit', shell : true });
 });
 
-gulp.task('node_test', function() {
+gulp.task('test_browser', ['compile_pug', 'generate_tests'], function () {
   const { spawn } = require('child_process');
-  return spawn('jasmine', { stdio: 'inherit', shell : true });
+  return spawn('npm run karma start', { stdio : 'inherit', shell : true });
 });
 
-gulp.task('test', ['test_node', 'test_browser'], function() {
+gulp.task('set_env', () => {
+  const keys = require('./config/keys');
+  process.env.FACEBOOK_TOKEN = keys.facebook_token;
+});
+
+/*gulp.task('test_node', function() {
+  const { spawn } = require('child_process');
+  return spawn('npm run jasmine', { stdio: 'inherit', shell : true });
+});*/
+
+/*gulp.task('test', ['test_node', 'test_browser'], function() {
   return
-});
+});*/
 
 /* Start the server with nodemon so it automatically restarts with changes.
 Wrap the server in browser-sync so changes automatically prompt a browser refresh
@@ -66,7 +76,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
   return browserSync.init({
     proxy: "localhost:3000",  // local node app address
     port: 5000,  // use *different* port than above
-    notify: true,
+    notify: false,
     injectChanges: false
   });
 });
@@ -106,31 +116,68 @@ gulp.task('sass', function() {
     .src('src/stylesheets/main.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(sourcemaps.write())
     .pipe(postcss([ autoprefixer() ]))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('public/stylesheets')); 
 });
 
-const expect = require('gulp-expect-file');
-
-gulp.task("babel", function () {
+// Need babel to transpile before using uglify. Github pages automatically gzips so pre-compressing my assets isn't needed
+gulp.task("package_all_js", function() {
+  const pump = require('pump');
+  const expect = require('gulp-expect-file');
   const sourcemaps = require("gulp-sourcemaps");
   const babel = require("gulp-babel");
   const concat = require("gulp-concat");
-  let files = ['src/javascripts/nav.js', 'src/javascripts/slideshow.js', 'src/javascripts/execute.js'];
-  return gulp
-    .src(files)
-    .pipe(expect(files))
-    .pipe(sourcemaps.init())
-    //.pipe(babel()) //error with root?
-    .pipe(concat("all.js"))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest("public"));
+  const uglify = require('gulp-uglify');
+  //const gzip = require('gulp-gzip');
+  const files = [
+    'src/javascripts/nav.js',
+    'src/javascripts/slideshow.js',
+    //'src/javascripts/fb.js',
+    'src/javascripts/execute.js'
+  ];
+  pump(
+    gulp.src(files),
+    expect(files),
+    sourcemaps.init(),
+    concat("all.js"),
+    babel(),
+    uglify(),
+    //gzip(),
+    sourcemaps.write('.'),
+    gulp.dest("public/javascripts"),
+    function(err) {
+      if(err) console.log(err);
+    }
+  )
 });
 
-gulp.task('default', ['browser-sync'], function () {
+//gulp.task("package_js", ['package_all_js'], function() {
+//  const pump = require('pump');
+//  //const expect = require('gulp-expect-file');
+//  const sourcemaps = require("gulp-sourcemaps");
+//  const babel = require("gulp-babel");
+//  const concat = require("gulp-concat");
+//  const uglify = require('gulp-uglify');
+//  //const gzip = require('gulp-gzip');
+//  //const files = ['src/javascripts/concat/nav.js', 'src/javascripts/concat/slideshow.js'];
+//  pump(
+//    gulp.src('src/javascripts/lib/*.js'),
+//    sourcemaps.init(),
+//    babel(),
+//    uglify(),
+//    //gzip(),
+//    sourcemaps.write('.'),
+//    gulp.dest("public/javascripts"),
+//    function(err) {
+//      if(err) console.log(err);
+//    }
+//  )
+//});
+
+gulp.task('default', ['set_env', 'browser-sync'], function () {
   console.log('Don"t forget to turn on cache killer or use Dev tools to disable caching');
   gulp.watch('src/**/*.scss', ['sass']);
-  gulp.watch('src/**/*.js', ['babel']);
+  gulp.watch('src/**/*.js', ['package_all_js']);
   return 
 });

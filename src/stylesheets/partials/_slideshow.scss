@@ -1,0 +1,35 @@
+.slideshow {
+
+}
+
+.slideshow__content {
+  text-align: center;
+}
+
+.slideshow__item {
+  display: none;
+}
+
+.slideshow__item--active {
+  display: block;
+  height: 300px;
+}
+
+.slideshow__buttons {
+  text-align: center;
+}
+
+.slideshow__button {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin-right: calc((320px - (48px * 5)) / 4);
+}
+
+.slideshow__button:last-child {
+  margin-right: 0px;
+}
+
+.slideshow__button--active {
+  box-shadow: inset 10px 10px 16px 0 rgba(0,0,0,0.2);
+}

@@ -15,9 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './spec/compiled_fixtures/*.html',
-      './src/javascripts/*.js',
-      './spec/karma_env/*.js'
+      './spec/compiled_fixtures/**/*.html',
+      './spec/tmp/declare_const_fixture.js',
+      './spec/tmp/*.js'
     ],
 
 
@@ -31,13 +31,8 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '**/*.html'   : ['html2js'],
-      '**/*.json'   : ['json_fixtures']
     },
 
-    jsonFixturesPreprocessor: {
-      variableName: '__json__'
-    },
-    
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

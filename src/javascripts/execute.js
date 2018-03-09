@@ -1,5 +1,3 @@
 'use strict';
-
-console.log(this);
-new Nav_menu_controller();
+new Nav_controller();
 new Slideshow();

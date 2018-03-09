@@ -1,3 +1,6 @@
-$text_container_padding: .5rem 1rem .5rem 1rem;
+// Variables are global. Therefore, a variable should NOT be global if it isn't supposed to be global. Therefore, classes with styles that are only applicaable to them should have all of their values within the class selector
+//$text_container_padding: .5rem 1rem .5rem 1rem;
 $primary_color: blue;
-$secondary_color: red;
+$secondary_color: lightblue;
+
+$primary_font: 'helvetica';

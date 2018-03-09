@@ -1,22 +1,22 @@
 extends layout
-
 block content
-  //- var hero_image_url = 'images/6trim.png';
-  - var hero_image_url = 'images/1trim.jpg';
-  div(class='hero')
-    img(src=hero_image_url)
-    h1 CitySwing DC
-    h2 DC's not-so-traditional Friday night Lindy hop and blues destination.
-  div(class='index_content')
-    h3 Local
-    p DC's only in-town Friday night swing dance.
-    h3 Friendly
-    p Free beginner lesson before every dance!
-    h3 Big
-    p Our large floor ensures you always have room to move.
-    h3 Eclectic
-    p Our Lindy hop music playlist has the most variety in the area.
-    h3 Diverse
-    p Our regular crowd includes people of all ages and skill levels.  
-    h3 Declicious
-    p We have apple pie at (almost) every dance.  
+  include includes/hero
+  div(id='index_flex' class='flex flex--narrow')
+    div(class='flex__item')
+      h1 Local
+      p DC's only in-town Friday night swing dance.
+    div(class='flex__item')
+      h1 Friendly
+      p Free beginner lesson before every dance!
+    div(class='flex__item')
+      h1 Big
+      p Our large floor ensures you always have room to move.
+    div(class='flex__item')
+      h1 Eclectic
+      p Our Lindy hop music playlist has the most variety in the area.
+    div(class='flex__item')
+      h1 Diverse
+      p Our regular crowd includes people of all ages and skill levels.  
+    div(class='flex__item')
+      h1 Delicious
+      p We have apple pie at (almost) every dance.  

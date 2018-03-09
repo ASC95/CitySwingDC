@@ -1,4 +1,12 @@
-$primary_color: red;
+$nav_height: 60px;
+
+.body[data-display='hidden'] {
+  overflow: hidden;
+}
+
+.nav_flow_block {
+  height: $nav_height;
+}
 
 nav {
   position: fixed;
@@ -8,18 +16,17 @@ nav {
 }
 
 .nav__header {
-  padding: .5rem 0 .5rem 0;
+  height: $nav_height;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-}
 
-.nav__header {
   .fa-bars {
     font-size: 2rem;
     padding: .5rem 1rem .5rem 1rem;
   }
+
   h1 {
     padding: .5rem 1rem .5rem 1rem;
     margin: 0;
@@ -27,26 +34,32 @@ nav {
 }
 
 .nav__menu {
-  padding: 1rem;
-  background-color: brown;
-  height: calc(100vh - 64px - 32px);
-}
+  background-color: red;
+  height: calc(100vh - #{$nav_height});
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.nav__menu--hidden {
-  display: none;
-}
+  ul {
+    padding: 0;
+    margin: 0;
+    font-size: 1.3rem;
+    line-height: 5rem;
+  }
 
-.nav__menu--visible {
-  display: block;
-}
-
-.nav__menu {
   li {
     list-style: none;
   }
 }
 
-@media screen and (min-width: 700px) {
+.nav__menu[data-display='hidden'] {
+  display: none;
+}
+
+@media screen and (min-width: 960px) {
+  .body[data-display='hidden'] {
+    overflow: visible;
+  }
 
   nav {
     display: flex;
@@ -54,35 +67,39 @@ nav {
   }
 
   .nav__header {
-    display: block;
-  }
-  
-  .nav__header > h1 {
-    //display: block;
-    white-space: nowrap;
-  }
-  
-  .nav__header > .fa-bars {
-    //display: none;
-  }
 
+    > h1 {
+      white-space: nowrap;
+    }
+
+    > .fa-bars {
+      display: none;
+    }
+  }
+  
   .nav__menu {
     height: auto;
+
+    ul {
+      padding: 0 1rem;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 0;
+      white-space: nowrap;
+    }
+
+    li {
+      list-style: none;
+      margin: 0 1rem 0 0;
+      display: inline-block;
+    }
+
+    li:last-child {
+      margin: 0;
+    }
   }
 
-  .nav__menu ul {
-    padding: 0;
-    margin: 0;
-    white-space: nowrap;
+  .nav__menu[data-display='hidden'] {
+    display: flex;
   }
-
-  .nav__menu li {
-    display: inline-block;
-    margin: 0 1rem 0 0;
-  }
-
-  .nav__menu li:last-child {
-    margin: 0; 
-  }
-
 }

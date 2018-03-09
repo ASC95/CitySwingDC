@@ -1,0 +1,91 @@
+/*
+How big do I want text to be?
+This will determine how wide things should be
+Text sizes will need to change for different screen sizes I think
+*/
+#index_flex {
+  max-width: 900px;
+}
+
+#footer_flex {
+  max-width: 700px;
+  flex-direction: column;
+
+  ul {
+    padding: 0;
+    margin: 1rem 0 0 0;
+    font-size: 1rem;
+    line-height: 0;
+    white-space: nowrap;
+  }
+
+  li {
+    list-style: none;
+    margin: 0 1rem 0 0;
+    display: inline-block;
+  }
+
+  li:last-child {
+    margin: 0;
+  }
+
+  .fa-facebook-official {
+    font-size: 2rem;
+  }
+}
+
+.flex {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex--narrow {
+  justify-content: center;
+}
+
+.flex--wide {
+  justify-content: space-between;
+}
+
+.flex--valign_center {
+  align-items: center;  
+}
+
+.flex__item {
+  font-size: 1.5rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+  max-width: 260px;
+
+  h1 {
+    text-align: center;
+  }
+  
+  p {
+    text-align: left;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  #footer_flex {
+    flex-direction: row;
+
+    p {
+      order: 1;
+    }
+
+    .fa-facebook-official {
+      order: 2;
+    }
+
+    ul {
+      margin: 0;
+      order: 3;
+    }
+  }
+}

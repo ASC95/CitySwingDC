@@ -7,26 +7,7 @@ html(lang="en-US")
     script(src="https://use.fontawesome.com/168367c54f.js")
     link(rel='stylesheet', href='/stylesheets/main.css')
   body
-    nav
-      div(class='nav__header')
-        h1 CitySwing DC
-        i(class="fa fa-bars" aria-hidden="true")
-      div(class='nav__menu nav__menu--hidden')
-        ul
-          li Schedule
-          li Location
-          li Music &amp; Venue
-          li Staff
-          li Code of Conduct
-          li FAQ
+    include includes/nav
     block content
-    footer
-      address 2201 P St NW, Washington, DC 20037 
-      p Contact
-      p &copy; Austin Chang 2017
-      i(class="fa fa-facebook-official", aria-hidden="true")
-      ul
-        li Terms of Use
-        li Privacy Policy
-        li Sitemap
-    script(src='all.js') 
+    include includes/footer
+    script(src='javascripts/all.js') 

@@ -1,31 +1,29 @@
-'use strict';
-
-describe('setup_nav_menu()', function() {
-
-  beforeAll(function() {
-    fixture.setBase('spec/compiled_fixtures')
-  });
-
+describe('Nav_controller()', function() {
+  
   beforeEach(function() {
-    let element_array = fixture.load('layout.html'); 
+    load_fixture(); 
   });
 
-  describe('toggle_menu()', function() {
+  afterEach(function() {
+    unload_fixture(); 
+  });
+
+  describe('toggle_menu_visibility()', function() {
     
     it('should make menu visible when menu is hidden', function() {
-      let controller = new Nav_menu_controller();
-      let menu = document.getElementsByClassName('nav__menu nav__menu--hidden')[0];
-      expect(menu.className).toEqual('nav__menu nav__menu--hidden');
-      controller.toggle_menu_display();
-      expect(menu.className).toEqual('nav__menu nav__menu--visible');
+      const controller = new Nav_controller();
+      const menu = document.getElementsByClassName('nav__menu')[0];
+      expect(menu.dataset.display).toEqual('hidden');
+      controller.toggle_menu_visibility();
+      expect(menu.dataset.display).toEqual('');
     });
 
     it('should make menu hidden when menu is visible', function() {
-      let controller = new Nav_menu_controller();
-      let menu = document.getElementsByClassName('nav__menu nav__menu--hidden')[0];
-      menu.className = 'nav__menu nav__menu--visible';
-      controller.toggle_menu_display();
-      expect(menu.className).toEqual('nav__menu nav__menu--hidden');
+      const controller = new Nav_controller();
+      const menu = document.getElementsByClassName('nav__menu')[0];
+      menu.dataset.display = '';
+      controller.toggle_menu_visibility();
+      expect(menu.dataset.display).toEqual('hidden');
     });
 
   });

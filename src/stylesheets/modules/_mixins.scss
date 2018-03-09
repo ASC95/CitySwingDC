@@ -1,5 +1,21 @@
-@mixin flexbox($flex-wrap: wrap) {
-  display: flex;
-  flex-wrap: $wrap;
+@mixin horizontal_list($font_size, $ul_h_padding, $ul_v_margin, $li_r_margin) {
+
+  ul {
+    padding: 0 $ul_h_padding;
+    margin: 0 $ul_v_margin;
+    font-size: $font_size;
+    line-height: 0;
+    white-space: nowrap;
+  }
+
+  li {
+    list-style: none;
+    margin: 0 $li_r_margin 0 0;
+    display: inline-block;
+  }
+
+  li:last-child {
+    margin: 0; 
+  }
 
 }
