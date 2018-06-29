@@ -1,4 +1,5 @@
-node_modules/
 *.swp
 *.sh
 config/
+old/
+node_modules/
